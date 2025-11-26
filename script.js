@@ -130,10 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
-/* It calls the minimax function */
+function setMove(x, y, player) {
 function aiTurn() {
 	var x, y;
 	var move;
@@ -151,6 +148,79 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+		return [null, null, score];
+	}
+
+	if (isMaximizing) {
+		bestScore = -Infinity;
+		for (var i = 0; i < moves.length; i++) {
+			var x = moves[i][0];
+			var y = moves[i][1];
+
+			board[x][y] = COMP;
+			score = minimax(board, depth - 1, false)[2];
+			board[x][y] = EMPTY;
+
+			if (score > bestScore) {
+				bestMove = [x, y];
+				bestScore = score;
+			}
+		}
+
+		return bestMove;
+	} else {
+		bestScore = Infinity;
+		for (var i = 0; i < moves.length; i++) {
+			var x = moves[i][0];
+			var y = moves[i][1];
+
+			board[x][y] = HUMAN;
+			score = minimax(board, depth - 1, true)[2];
+			board[x][y] = EMPTY;
+
+			if (score < bestScore) {
+				bestMove = [x, y];
+				bestScore = score;
+			}
+		}
+
+		return bestMove;
+	}
+}
+
+function evaluateBoard(board) {
+	var winner = checkWinner(board);
+	if (winner == HUMAN) {
+		return -10;
+	} else if (winner == COMP) {
+		return 10;
+	} else {
+		return 0;
+	}
+}
+
+/* It calls the minimax function */
+function aiTurn() {
+	var x, y;
+	var move;
+	var cell;
+
+	if (emptyCells(board).length == 9) {
+		x = parseInt(Math.random() * 3);
+		y = parseInt(Math.random() * 3);
+	} else {
+		move = minimax(board, emptyCells(board).length, COMP);
+		x = move[0];
+		y = move[1];
+	}
+
+	if (setMove(x, y, COMP)) {
+		cell = document.getElementById(String(x) + String(y));
+	}
+}
 		cell.innerHTML = "O";
 	}
 }
