@@ -191,11 +191,43 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
-
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x, y = input('Your move [x,y]: ').split(',')
+        
+        try:
+            x = int(x)
+            y = int(y)
+            
+            if not (0 <= x < 3 and 0 <= y < 3):
+                raise ValueError
+        except ValueError:
+            print('Coordinates must be from 0 to 2')
+            continue
+        
+        if board[x][y] != EMPTY:
+            print('This cell is occupied! Choose another one!')
+            continue
+        
+        break
+    
+    set_move(x, y, HUMAN)
+    
+def computer_turn(board):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
@@ -206,12 +238,36 @@ def ai_turn(c_choice, h_choice):
     else:
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
-
+    
     set_move(x, y, COMP)
     time.sleep(1)
 
+def human_vs_computer():
+    board = create_board()
+    render(board, h_choice, c_choice)
+    
+    while True:
+        if len(empty_cells(board)) == 9:
+            print('Nobody moved yet')
+            continue
+        
+        human_turn(board)
+        
+        if game_over(board):
+            break
+        
+        computer_turn(board)
+        
+        if game_over(board):
+            break
 
-def human_turn(c_choice, h_choice):
+    if game_over(board) and board[1][1] != EMPTY:
+        winner = get_winner(board)
+        print(f'The game is over, {winner} won!')
+    else:
+        print('It\'s a tie!')
+
+human_vs_computer()
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
