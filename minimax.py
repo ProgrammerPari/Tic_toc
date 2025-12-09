@@ -191,11 +191,33 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if not is_valid_move(board, x, y):
+            print('This cell is occupied! Choose another one!')
+            continue
+        
+        set_move(x, y, HUMAN)
+        break
 
+def computer_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
@@ -210,8 +232,26 @@ def ai_turn(c_choice, h_choice):
     set_move(x, y, COMP)
     time.sleep(1)
 
+def human_vs_computer():
+    c_choice = 'O'
+    h_choice = 'X'
 
-def human_turn(c_choice, h_choice):
+    print('Welcome to Tic-Tac-Toe!')
+    board = create_board()
+    render(board, c_choice, h_choice)
+
+    while True:
+        human_turn(board)
+        
+        if game_over(board):
+            break
+        
+        computer_turn(c_choice, h_choice)
+        
+        if game_over(board):
+            break
+
+    declare_winner(board, c_choice, h_choice)
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
