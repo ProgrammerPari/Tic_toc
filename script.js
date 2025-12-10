@@ -130,10 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
-/* It calls the minimax function */
+function setMove(x, y, player) {
 function aiTurn() {
 	var x, y;
 	var move;
@@ -154,7 +151,6 @@ function aiTurn() {
 		cell.innerHTML = "O";
 	}
 }
-
 /* main */
 function clickedCell(cell) {
 	var button = document.getElementById("bnt-restart");

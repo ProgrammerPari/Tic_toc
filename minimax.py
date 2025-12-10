@@ -191,11 +191,13 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def computer_turn(board, c_choice):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
-
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
@@ -209,7 +211,6 @@ def ai_turn(c_choice, h_choice):
 
     set_move(x, y, COMP)
     time.sleep(1)
-
 
 def human_turn(c_choice, h_choice):
     """
