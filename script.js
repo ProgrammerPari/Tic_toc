@@ -130,10 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
-/* It calls the minimax function */
+function minimax(board, depth, isMaximizing) {
 function aiTurn() {
 	var x, y;
 	var move;
@@ -151,6 +148,22 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+        for (var i = 0; i < moves.length; i++) {
+            setMove(moves[i][0], moves[i][1], MIN);
+            var moveValue = minimax(board, depth - 1, true);
+            resetBoard(board);
+            if (moveValue < best) {
+                best = moveValue;
+                move = moves[i];
+            }
+        }
+    }
+
+    return [move[0], move[1]];
+}
 		cell.innerHTML = "O";
 	}
 }
