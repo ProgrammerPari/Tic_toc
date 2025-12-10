@@ -130,9 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
+function getRandomInt(min, max) {
 /* It calls the minimax function */
 function aiTurn() {
 	var x, y;
@@ -151,6 +149,36 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+	if (setMove(x, y, COMP)) {
+		cell = document.getElementById(String(x) + String(y));
+	}
+	return best;
+}
+
+/* It calls the minimax function */
+function aiTurn() {
+	var x, y;
+	var move;
+	var cell;
+
+	if (emptyCells(board).length == 9) {
+		x = getRandomInt(0, 3);
+		y = getRandomInt(0, 3);
+	}
+	else {
+		move = minimax(board, emptyCells(board).length, COMP);
+		x = move[0];
+		y = move[1];
+	}
+
+	if (setMove(x, y, COMP)) {
+		cell = document.getElementById(String(x) + String(y));
+	}
+	return best;
+}
 		cell.innerHTML = "O";
 	}
 }
