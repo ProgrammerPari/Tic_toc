@@ -130,9 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
+```javascript
 /* It calls the minimax function */
 function aiTurn() {
 	var x, y;
@@ -151,6 +149,84 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+        move = minimax(board, emptyCells(board).length, COMP);
+        x = move[0];
+        y = move[1];
+    }
+
+    if (setMove(x, y, COMP)) {
+        cell = document.getElementById(String(x) + String(y));
+        if (cell) {
+            cell.innerHTML = "O";
+        }
+    }
+}
+
+function minimax(board, depth, isMaximizing) {
+    var moves = emptyCells(board);
+    var best;
+    var move;
+
+    if (depth == 0 || checkWinner(board)) {
+        return evaluateBoard(board);
+    }
+
+    if (isMaximizing) {
+        best = -10000;
+        for (var i = 0; i < moves.length; i++) {
+            setMove(moves[i][0], moves[i][1], HUMAN);
+            var moveVal = minimax(board, depth - 1, !isMaximizing);
+            resetBoard();
+            best = Math.max(best, moveVal);
+            if (best == 10000) break;
+        }
+    } else {
+        best = 10000;
+        for (var i = 0; i < moves.length; i++) {
+            setMove(moves[i][0], moves[i][1], COMP);
+            var moveVal = minimax(board, depth - 1, !isMaximizing);
+            resetBoard();
+            best = Math.min(best, moveVal);
+            if (best == -10000) break;
+        }
+    }
+
+    return best;
+}
+
+function evaluateBoard(board) {
+    for (var i = 0; i < 3; i++) {
+        if (board[i][0] == board[i][1] && board[i][1] == board[i][2]) {
+            if (board[i][0] == HUMAN) return -10;
+            else if (board[i][0] == COMP) return 10;
+        }
+    }
+
+    for (var i = 0; i < 3; i++) {
+        if (board[0][i] == board[1][i] && board[1][i] == board[2][i]) {
+            if (board[0][i] == HUMAN) return -10;
+            else if (board[0][i] == COMP) return 10;
+        }
+    }
+
+    if (board[0][0] == board[1][1] && board[1][1] == board[2][2]) {
+        if (board[0][0] == HUMAN) return -10;
+        else if (board[0][0] == COMP) return 10;
+    }
+
+    if (board[0][2] == board[1][1] && board[1][1] == board[2][0]) {
+        if (board[0][2] == HUMAN) return -10;
+        else if (board[0][2] == COMP) return 10;
+    }
+
+    return 0;
+}
+
+function isOnBoard(x, y) {
+    return x >= 0 && x < 3 && y >= 0 && y < 3
 		cell.innerHTML = "O";
 	}
 }
