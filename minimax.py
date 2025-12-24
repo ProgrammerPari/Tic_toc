@@ -191,11 +191,33 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+```python
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if not empty_cells(board)[(x,y)]:
+            continue
+        
+        set_move(x, y, HUMAN)
+        break
 
+def computer_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
@@ -206,12 +228,112 @@ def ai_turn(c_choice, h_choice):
     else:
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
-
+    
     set_move(x, y, COMP)
     time.sleep(1)
 
+def human_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if not empty_cells(board)[(x,y)]:
+            continue
+        
+        set_move(x, y, HUMAN)
+        break
+
+def computer_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
+    clean()
+    print(f'Computer turn [{c_choice}]')
+    render(board, c_choice, h_choice)
+
+    if depth == 9:
+        x = choice([0, 1, 2])
+        y = choice([0, 1, 2])
+    else:
+        move = minimax(board, depth, COMP)
+        x, y = move[0], move[1]
+    
+    set_move(x, y, COMP)
+    time.sleep(1)
 
 def human_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if not empty_cells(board)[(x,y)]:
+            continue
+        
+        set_move(x, y, HUMAN)
+        break
+
+def computer_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
+    clean()
+    print(f'Computer turn [{c_choice}]')
+    render(board, c_choice, h_choice)
+
+    if depth == 9:
+        x = choice([0, 1, 2])
+        y = choice([0, 1, 2])
+    else:
+        move = minimax(board, depth, COMP)
+        x, y = move[0], move[1]
+    
+    set_move(x, y, COMP)
+    time.sleep(1)
+
+def human_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if not empty_cells(board)[(x,y)]:
+            continue
+        
+        set_move(x, y, HUMAN)
+        break
+
+def computer_turn(c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
+    clean()
+    print(f'Computer turn [{
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
