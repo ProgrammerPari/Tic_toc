@@ -130,10 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
-/* It calls the minimax function */
+function setMove(x, y, player) {
 function aiTurn() {
 	var x, y;
 	var move;
@@ -151,6 +148,32 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+}
+
+function aiTurn() {
+    var x, y;
+    var move;
+
+    if (emptyCells(board).length == 9) {
+        x = parseInt(Math.random() * 3);
+        y = parseInt(Math.random() * 3);
+    } else {
+        move = minimax(board, emptyCells(board).length, COMP);
+        x = move[0];
+        y = move[1];
+    }
+
+    if (setMove(x, y, COMP)) {
+        cell = document.getElementById(String(x) + String(y));
+        cell.innerHTML = "O";
+        cell.style.color = "#0000FF";
+        cell.setAttribute("class", "cell");
+        turn++;
+    }
+}
 		cell.innerHTML = "O";
 	}
 }
