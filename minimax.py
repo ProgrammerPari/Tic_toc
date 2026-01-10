@@ -191,27 +191,75 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x, y = input('Your move [x,y]: ').split(',')
+        
+        try:
+            x = int(x)
+            y = int(y)
+            
+            if not (0 <= x < 3 and 0 <= y < 3):
+                raise ValueError
+            break
+        
+        except ValueError:
+            print('Coordinates must be from 0 to 2')
+    
+    set_move(x, y, HUMAN)
 
+def computer_turn(board, c_choice, h_choice):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
-
+    
     if depth == 9:
         x = choice([0, 1, 2])
         y = choice([0, 1, 2])
     else:
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
-
+        
     set_move(x, y, COMP)
     time.sleep(1)
 
+def human_vs_computer():
+    board = create_board()
+    render(board)
+    
+    c_choice = choice(['X', 'O'])
+    h_choice = 'O' if c_choice == 'X' else 'X'
+    
+    print(f'You are {h_choice}. Computer is {c_choice}')
+    
+    while True:
+        human_turn(board)
+        
+        if game_over(board):
+            break
+        
+        computer_turn(board, c_choice, h_choice)
 
-def human_turn(c_choice, h_choice):
+        if game_over(board):
+            break
+
+    if game_over(board):
+        winner = get_winner(board)
+        print(f'The winner is: {winner}')
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
