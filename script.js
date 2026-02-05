@@ -130,9 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
+function setMove(x, y, player) {
 /* It calls the minimax function */
 function aiTurn() {
 	var x, y;
@@ -152,6 +150,8 @@ function aiTurn() {
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
 		cell.innerHTML = "O";
+	}
+}
 	}
 }
 
