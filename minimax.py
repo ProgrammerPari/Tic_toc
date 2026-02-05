@@ -191,27 +191,68 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
-
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if board[x][y] == EMPTY:
+            set_move(x, y, HUMAN)
+            break
+        else:
+            print('This cell is occupied! Choose another one!')
+            
+def computer_turn(board):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
-
+    
     if depth == 9:
         x = choice([0, 1, 2])
         y = choice([0, 1, 2])
     else:
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
-
+        
     set_move(x, y, COMP)
     time.sleep(1)
 
+def human_vs_computer():
+    board = create_board()
+    render(board, h_choice, c_choice)
+    
+    game_over = False
+    while not game_over:
+        human_turn(board)
+        if game_over: break
+        
+        computer_turn(board)
+        if game_over: break
 
-def human_turn(c_choice, h_choice):
+    if game_over:
+        clean()
+        if is_winner(board, COMP):
+            print(f'Computer wins!')
+        else:
+            print(f'Human wins!')
+    else:
+        print('Tie!')
+
+human_vs_computer()
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
