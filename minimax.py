@@ -191,27 +191,81 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
-
+    
+    clean()
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if board[x][y] == EMPTY:
+            set_move(x, y, HUMAN)
+            break
+        else:
+            print('This cell is occupied! Choose another one!')
+            
+def computer_turn(board):
+    depth = len(empty_cells(board))
+    if depth == 0 or game_over(board):
+        return
+    
     clean()
     print(f'Computer turn [{c_choice}]')
     render(board, c_choice, h_choice)
-
+    
     if depth == 9:
         x = choice([0, 1, 2])
         y = choice([0, 1, 2])
     else:
         move = minimax(board, depth, COMP)
         x, y = move[0], move[1]
-
+        
     set_move(x, y, COMP)
     time.sleep(1)
 
+def human_vs_computer():
+    print('Welcome to Tic Tac Toe!')
+    
+    while True:
+        c_choice = input('Choose X or O: ')
+        if c_choice == 'X':
+            h_choice = 'O'
+            break
+        elif c_choice == 'O':
+            h_choice = 'X'
+            break
+        else:
+            print('Invalid choice! Choose X or O!')
+            
+    board = create_board()
+    
+    while True:
+        human_turn(board)
+        
+        if game_over(board):
+            break
+        
+        computer_turn(board)
+        
+        if game_over(board):
+            break
+            
+    clean()
+    render(board, c_choice, h_choice)
 
-def human_turn(c_choice, h_choice):
+def main():
+    human_vs_computer()
+
+if __name__ == '__main__':
+    main()
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O

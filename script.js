@@ -130,10 +130,7 @@ function minimax(state, depth, player) {
 		}
 	});
 
-	return best;
-}
-
-/* It calls the minimax function */
+function setRandomMove(board) {
 function aiTurn() {
 	var x, y;
 	var move;
@@ -151,6 +148,20 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+}
+
+/* It calls the minimax function */
+function aiTurn() {
+	var x, y;
+	var cell;
+
+	if (!setRandomMove(board)) {
+		alert("Game Over");
+	}
+}
 		cell.innerHTML = "O";
 	}
 }
