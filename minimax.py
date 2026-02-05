@@ -191,27 +191,26 @@ def ai_turn(c_choice, h_choice):
     :param c_choice: computer's choice X or O
     :param h_choice: human's choice X or O
     :return:
-    """
+import random
+
+def human_turn(board):
     depth = len(empty_cells(board))
     if depth == 0 or game_over(board):
         return
-
+    
     clean()
-    print(f'Computer turn [{c_choice}]')
-    render(board, c_choice, h_choice)
-
-    if depth == 9:
-        x = choice([0, 1, 2])
-        y = choice([0, 1, 2])
-    else:
-        move = minimax(board, depth, COMP)
-        x, y = move[0], move[1]
-
-    set_move(x, y, COMP)
-    time.sleep(1)
-
-
-def human_turn(c_choice, h_choice):
+    print(f'Human turn [{h_choice}]')
+    render(board, h_choice, c_choice)
+    
+    while True:
+        x = int(input('X: '))
+        y = int(input('Y: '))
+        
+        if is_valid_move(board, x, y):
+            set_move(x, y, HUMAN)
+            break
+        else:
+            print('This cell is occupied! Choose another one!')
     """
     The Human plays choosing a valid move.
     :param c_choice: computer's choice X or O
