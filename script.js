@@ -130,6 +130,31 @@ function minimax(state, depth, player) {
 		}
 	});
 
+function setMove(x, y, player) {
+function aiTurn() {
+	var x, y;
+	var move;
+	var cell;
+
+	if (emptyCells(board).length == 9) {
+		x = parseInt(Math.random() * 3);
+		y = parseInt(Math.random() * 3);
+	}
+	else {
+		move = minimax(board, emptyCells(board).length, COMP);
+		x = move[0];
+		y = move[1];
+	}
+
+	if (setMove(x, y, COMP)) {
+		cell = document.getElementById(String(x) + String(y));
+		cell.innerHTML = "O";
+	}
+}
+
+	if (setMove(x, y, COMP)) {
+		cell = document.getElementById(String(x) + String(y));
+	}
 	return best;
 }
 
@@ -151,6 +176,9 @@ function aiTurn() {
 
 	if (setMove(x, y, COMP)) {
 		cell = document.getElementById(String(x) + String(y));
+		return best;
+	}
+}
 		cell.innerHTML = "O";
 	}
 }
